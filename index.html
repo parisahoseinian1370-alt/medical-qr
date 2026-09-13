@@ -1,153 +1,368 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پرونده پزشکی دیجیتال</title>
 
+<style>
+*{box-sizing:border-box}
 
-.person-card {
-      display: flex;
-      gap: 25px;
-      align-items: flex-start;
-      background: #f8fafc;
-      border-radius: 15px;
-      padding: 20px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
+body{
+  margin:0;
+  font-family:Tahoma,Arial,sans-serif;
+  background:#f3f6f9;
+  color:#17202a;
+}
 
-    .person-photo {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 4px solid white;
-      box-shadow: 0 5px 20px rgba(0,0,0,.12);
-      background: #e2e8f0;
-      flex-shrink: 0;
-    }
+header{
+  background:linear-gradient(135deg,#087f8c,#075985);
+  color:white;
+  padding:28px 15px;
+  text-align:center;
+}
 
-    .person-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+header h1{
+  margin:0 0 8px;
+  font-size:28px;
+}
 
-    .person-info {
-      flex: 1;
-      min-width: 250px;
-    }
+header p{margin:0;opacity:.9}
 
-    .person-info h3 {
-      margin-top: 0;
-      font-size: 24px;
-      color: #075985;
-    }
+.container{
+  width:min(1000px,94%);
+  margin:25px auto;
+}
 
-    .info-row {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
+.card{
+  background:white;
+  border-radius:18px;
+  padding:25px;
+  margin-bottom:22px;
+  box-shadow:0 8px 30px rgba(0,0,0,.07);
+}
 
-    .info-item {
-      background: white;
-      border-radius: 10px;
-      padding: 12px;
-      border: 1px solid #e2e8f0;
-    }
+.card h2{
+  margin-top:0;
+  color:#075985;
+  border-bottom:1px solid #e5e7eb;
+  padding-bottom:12px;
+}
 
-    .info-item strong {
-      display: block;
-      color: #64748b;
-      font-size: 12px;
-      margin-bottom: 5px;
-    }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
 
-    .medical-problem {
-      border-right: 5px solid #ef4444;
-      background: #fff7f7;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 12px;
-    }
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
 
-    .medical-problem h4 {
-      margin: 0 0 8px;
-      color: #991b1b;
-    }
+.field.full{
+  grid-column:1/-1;
+}
 
-    .allergy-box {
-      background: #fff7ed;
-      border: 1px solid #fed7aa;
-      color: #9a3412;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 15px;
-    }
+label{
+  font-weight:bold;
+  font-size:14px;
+}
 
-    #reader {
-      width: 100%;
-      max-width: 500px;
-      margin: 20px auto;
-    }
+input,textarea,select{
+  width:100%;
+  border:1px solid #d5dbe0;
+  border-radius:10px;
+  padding:12px;
+  font-family:inherit;
+  font-size:15px;
+  outline:none;
+  background:white;
+}
 
-    .scan-status {
-      text-align: center;
-      padding: 12px;
-      background: #f1f5f9;
-      border-radius: 10px;
-      margin-top: 10px;
-    }
+input:focus,textarea:focus,select:focus{
+  border-color:#0f8b8d;
+  box-shadow:0 0 0 3px rgba(15,139,141,.1);
+}
 
-    .saved-item {
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
 
-    .saved-item strong {
-      color: #075985;
-    }
+.photo-area{
+  display:flex;
+  align-items:center;
+  gap:25px;
+  flex-wrap:wrap;
+}
 
-    .notice {
-      background: #fff7ed;
-      border: 1px solid #fed7aa;
-      color: #9a3412;
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-      line-height: 1.8;
-    }
+.photo-preview{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  border:3px solid #dbeafe;
+  background:#f1f5f9;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  color:#64748b;
+  font-size:13px;
+  text-align:center;
+  flex-shrink:0;
+}
 
-    @media (max-width: 700px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
+.photo-preview img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
-      .field.full {
-        grid-column: auto;
-      }
+.problem{
+  border:1px solid #dce3e8;
+  background:#f8fafc;
+  border-radius:14px;
+  padding:18px;
+  margin-bottom:15px;
+}
 
-      .info-row {
-        grid-template-columns: 1fr;
-      }
+.problem-title{
+  font-weight:bold;
+  color:#075985;
+  margin-bottom:15px;
+}
 
-      .person-card {
-        justify-content: center;
-        text-align: center;
-      }
+button{
+  border:none;
+  border-radius:10px;
+  padding:12px 18px;
+  font-family:inherit;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
+}
 
-      .person-info {
-        width: 100%;
-      }
+button:hover{
+  transform:translateY(-1px);
+}
 
-      header h1 {
-        font-size: 23px;
-      }
-    }
-  </style>
+.btn-primary{
+  background:#087f8c;
+  color:white;
+}
+
+.btn-secondary{
+  background:#e2e8f0;
+  color:#1e293b;
+}
+
+.btn-danger{
+  background:#fee2e2;
+  color:#b91c1c;
+  margin-top:12px;
+}
+
+.btn-success{
+  background:#16a34a;
+  color:white;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.qr-wrapper{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  background:#f8fafc;
+  border-radius:15px;
+  margin:20px 0;
+}
+
+#qrcode{
+  background:white;
+  padding:15px;
+  border-radius:12px;
+}
+
+.record-id{
+  background:#ecfeff;
+  border:1px solid #a5f3fc;
+  padding:14px;
+  border-radius:10px;
+  text-align:center;
+  font-weight:bold;
+  color:#155e75;
+  word-break:break-word;
+}
+
+.person-card{
+  display:flex;
+  gap:25px;
+  align-items:flex-start;
+  background:#f8fafc;
+  border-radius:15px;
+  padding:20px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+
+.person-photo{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  overflow:hidden;
+  border:4px solid white;
+  box-shadow:0 5px 20px rgba(0,0,0,.12);
+  background:#e2e8f0;
+  flex-shrink:0;
+}
+
+.person-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.person-info{
+  flex:1;
+  min-width:250px;
+}
+
+.person-info h3{
+  margin-top:0;
+  font-size:24px;
+  color:#075985;
+}
+
+.info-row{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.info-item{
+  background:white;
+  border-radius:10px;
+  padding:12px;
+  border:1px solid #e2e8f0;
+}
+
+.info-item strong{
+  display:block;
+  color:#64748b;
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.medical-problem{
+  border-right:5px solid #ef4444;
+  background:#fff7f7;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:12px;
+}
+
+.medical-problem h4{
+  margin:0 0 8px;
+  color:#991b1b;
+}
+
+جانان, [2026/09/13 11:57 ق.ظ]
+.allergy-box{
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  color:#9a3412;
+  padding:15px;
+  border-radius:10px;
+  margin-top:15px;
+}
+
+#reader{
+  width:100%;
+  max-width:500px;
+  margin:20px auto;
+}
+
+.scan-status{
+  text-align:center;
+  padding:12px;
+  background:#f1f5f9;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+.saved-item{
+  border:1px solid #e2e8f0;
+  border-radius:12px;
+  padding:15px;
+  margin-bottom:10px;
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.saved-item strong{
+  color:#075985;
+}
+
+.notice{
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  color:#9a3412;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:20px;
+  line-height:1.8;
+}
+
+.empty{
+  text-align:center;
+  color:#64748b;
+  padding:20px;
+}
+
+@media(max-width:700px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .info-row{
+    grid-template-columns:1fr;
+  }
+
+  .person-card{
+    justify-content:center;
+    text-align:center;
+  }
+
+  .person-info{
+    width:100%;
+  }
+
+  header h1{
+    font-size:23px;
+  }
+}
+</style>
 </head>
 
 <body>
@@ -159,1647 +374,957 @@
 
 <div class="container">
 
-  <div class="notice">
-    ⚠️ این نسخه یک <strong>پروتوتایپ</strong> است.
-    اطلاعات پزشکی فعلاً در مرورگر ذخیره می‌شوند.
-    برای استفاده واقعی باید احراز هویت، سرور امن و رمزنگاری اضافه شود.
-  </div>
+<div class="notice">
+⚠️ این نسخه برای آزمایش و ساخت نمونه اولیه است.
+اطلاعات پزشکی واقعی را فعلاً در این نسخه وارد نکنید.
+</div>
 
-  <!-- ================= اطلاعات اولیه ================= -->
+<div class="card">
 
-  <div class="card">
+<h2>👤 مشخصات فرد</h2>
 
-    <h2>👤 مشخصات اولیه</h2>
+<div class="photo-area">
 
-    <div class="photo-area">
+<div class="photo-preview" id="photoPreview">
+بدون عکس
+</div>
 
-      <div class="photo-preview" id="photoPreview">
-        بدون عکس
-      </div>
+<div style="flex:1;min-width:250px">
 
-      <div style="flex:1; min-width:250px;">
-        <div class="field">
-          <label for="photo">عکس فرد</label>
-          <input
-            type="file"
-            id="photo"
-            accept="image/*"
-          >
-        </div>
-
-        <p style="color:#64748b; font-size:13px;">
-          عکس فقط برای نمایش در پرونده استفاده می‌شود و
-          <strong>داخل QR Code قرار نمی‌گیرد.</strong>
-        </p>
-      </div>
-
-    </div>
-
-    <br>
-
-    <div class="grid">
-
-      <div class="field">
-        <label for="firstName">نام</label>
-        <input
-          id="firstName"
-          type="text"
-          placeholder="مثلاً علی"
-          required
-        >
-      </div>
-
-جانان, [2026/09/13 09:29 ق.ظ]
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>پرونده پزشکی دیجیتال</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Tahoma, Arial, sans-serif;
-      background: #f3f6f9;
-      color: #17202a;
-    }
-
-    header {
-      background: linear-gradient(135deg, #087f8c, #075985);
-      color: white;
-      padding: 25px 15px;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0 0 8px;
-      font-size: 28px;
-    }
-
-    header p {
-      margin: 0;
-      opacity: .9;
-    }
-
-    .container {
-      width: min(1000px, 94%);
-      margin: 25px auto;
-    }
-
-    .card {
-      background: white;
-      border-radius: 18px;
-      padding: 25px;
-      margin-bottom: 22px;
-      box-shadow: 0 8px 30px rgba(0,0,0,.07);
-    }
-
-    .card h2 {
-      margin-top: 0;
-      color: #075985;
-      border-bottom: 1px solid #e5e7eb;
-      padding-bottom: 12px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-
-    .field.full {
-      grid-column: 1 / -1;
-    }
-
-    label {
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      border: 1px solid #d5dbe0;
-      border-radius: 10px;
-      padding: 12px;
-      font-family: inherit;
-      font-size: 15px;
-      outline: none;
-      background: white;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: #0f8b8d;
-      box-shadow: 0 0 0 3px rgba(15,139,141,.1);
-    }
-
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    .photo-area {
-      display: flex;
-      align-items: center;
-      gap: 25px;
-      flex-wrap: wrap;
-    }
-
-    .photo-preview {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      border: 3px solid #dbeafe;
-      background: #f1f5f9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      color: #64748b;
-      font-size: 13px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .photo-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .problem {
-      border: 1px solid #dce3e8;
-      background: #f8fafc;
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 15px;
-      position: relative;
-    }
-
-    .problem-title {
-      font-weight: bold;
-      color: #075985;
-      margin-bottom: 15px;
-    }
-
-    button {
-      border: none;
-      border-radius: 10px;
-      padding: 12px 18px;
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    button:hover {
-      transform: translateY(-1px);
-    }
-
-    .btn-primary {
-      background: #087f8c;
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: #066a75;
-    }
-
-    .btn-secondary {
-      background: #e2e8f0;
-      color: #1e293b;
-    }
-
-    .btn-danger {
-      background: #fee2e2;
-      color: #b91c1c;
-      margin-top: 12px;
-    }
-
-    .btn-success {
-      background: #16a34a;
-      color: white;
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .qr-wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      background: #f8fafc;
-      border-radius: 15px;
-      margin: 20px 0;
-    }
-
-    #qrcode {
-      background: white;
-      padding: 15px;
-      border-radius: 12px;
-    }
-
-    .record-id {
-      background: #ecfeff;
-      border: 1px solid #a5f3fc;
-      padding: 14px;
-      border-radius: 10px;
-      text-align: center;
-      font-weight: bold;
-      color: #155e75;
-    }
-
-جانان, [2026/09/13 09:29 ق.ظ]
 <div class="field">
-        <label for="lastName">نام خانوادگی</label>
-        <input
-          id="lastName"
-          type="text"
-          placeholder="مثلاً رضایی"
-          required
-        >
-      </div>
+<label for="photo">عکس فرد</label>
+<input type="file" id="photo" accept="image/*">
+</div>
 
-      <div class="field">
-        <label for="nationalId">کد ملی</label>
-        <input
-          id="nationalId"
-          type="text"
-          inputmode="numeric"
-          maxlength="10"
-          placeholder="مثلاً 0012345678"
-          required
-        >
-      </div>
+<p style="color:#64748b;font-size:13px">
+عکس فقط برای نمایش در پرونده است و
+<strong>داخل QR Code قرار نمی‌گیرد.</strong>
+</p>
 
-      <div class="field">
-        <label for="job">شغل</label>
-        <input
-          id="job"
-          type="text"
-          placeholder="مثلاً مهندس"
-          required
-        >
-      </div>
+</div>
+</div>
 
-    </div>
+<br>
 
-  </div>
+<div class="grid">
 
+<div class="field">
+<label for="firstName">نام</label>
+<input id="firstName" type="text" placeholder="مثلاً علی">
+</div>
 
-  <!-- ================= بیماری ها ================= -->
+<div class="field">
+<label for="lastName">نام خانوادگی</label>
+<input id="lastName" type="text" placeholder="مثلاً رضایی">
+</div>
 
-  <div class="card">
+<div class="field">
+<label for="nationalId">کد ملی</label>
+<input id="nationalId" type="text" inputmode="numeric" maxlength="10" placeholder="مثلاً 0012345678">
+</div>
 
-    <h2>🩺 بیماری‌ها</h2>
+<div class="field">
+<label for="job">شغل</label>
+<input id="job" type="text" placeholder="مثلاً مهندس">
+</div>
 
-    <div id="problemsContainer"></div>
+</div>
+</div>
 
-    <button
-      type="button"
-      class="btn-secondary"
-      onclick="addProblem()"
-    >
-      + افزودن بیماری
-    </button>
+<div class="card">
 
-  </div>
+<h2>🩺 بیماری‌ها</h2>
 
+<div id="problemsContainer"></div>
 
-  <!-- ================= حساسیت ها ================= -->
-
-  <div class="card">
-
-    <h2>⚠️ حساسیت‌ها</h2>
-
-    <div class="field">
-      <label for="allergies">
-        حساسیت‌های دارویی، غذایی یا سایر موارد
-      </label>
-
-      <textarea
-        id="allergies"
-        placeholder="مثلاً حساسیت به پنی‌سیلین، بادام زمینی..."
-      ></textarea>
-    </div>
-
-  </div>
-
-
-  <!-- ================= ساخت پرونده ================= -->
-
-  <div class="card">
-
-    <div class="actions">
-
-      <button
-        class="btn-primary"
-        onclick="createRecord()"
-      >
-        🧾 ایجاد پرونده و QR Code
-      </button>
-
-      <button
-        class="btn-secondary"
-        onclick="resetForm()"
-      >
-        پاک کردن فرم
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <!-- ================= نتیجه ================= -->
-
-  <div
-    class="card hidden"
-    id="resultSection"
-  >
-
-    <h2>✅ پرونده ایجاد شد</h2>
-
-    <div class="record-id">
-      شناسه پرونده:
-      <span id="generatedId"></span>
-    </div>
-
-    <div class="qr-wrapper">
-      <div id="qrcode"></div>
-    </div>
-
-    <div style="text-align:center;">
-
-      <button
-        class="btn-success"
-        onclick="downloadQR()"
-      >
-        ⬇️ دانلود QR Code
-      </button>
-
-    </div>
-
-    <p style="text-align:center;color:#64748b;margin-top:15px;">
-      اطلاعات داخل QR شامل نام، نام خانوادگی، کد ملی، شغل،
-      بیماری‌ها و حساسیت‌ها است.
-      <br>
-      عکس داخل QR قرار نگرفته است.
-    </p>
-
-  </div>
-
-
-  <!-- ================= نمایش پرونده ================= -->
-
-  <div
-    class="card hidden"
-    id="recordSection"
-  >
-
-    <h2>📋 اطلاعات پرونده</h2>
-
-    <div id="recordDetails"></div>
-
-  </div>
-
-
-  <!-- ================= اسکن ================= -->
-
-  <div class="card">
-
-    <h2>📷 اسکن QR Code</h2>
-
-    <p>
-      با دوربین موبایل QR Code پرونده را اسکن کنید.
-    </p>
-
-    <button
-      class="btn-primary"
-      onclick="startScanner()"
-    >
-      📷 شروع اسکن
-    </button>
-
-    <div id="reader"></div>
-
-    <div
-      class="scan-status"
-      id="scanStatus"
-    >
-      آماده اسکن
-    </div>
-
-  </div>
-
-
-  <!-- ================= پرونده های ذخیره شده ================= -->
-
-  <div class="card">
-
-    <h2>💾 پرونده‌های ذخیره‌شده در این مرورگر</h2>
-
-    <div id="savedRecords"></div>
-
-  </div>
+<button type="button" class="btn-secondary" onclick="addProblem()">
++ افزودن بیماری
+</button>
 
 </div>
 
+<div class="card">
 
-<!-- QR Code -->
+<h2>⚠️ حساسیت‌ها</h2>
+
+<div class="field">
+
+<label for="allergies">
+حساسیت‌های دارویی، غذایی یا سایر موارد
+</label>
+
+<textarea id="allergies"
+placeholder="مثلاً حساسیت به پنی‌سیلین، بادام زمینی..."></textarea>
+
+</div>
+</div>
+
+<div class="card">
+
+<div class="actions">
+
+<button class="btn-primary" onclick="createRecord()">
+🧾 ایجاد پرونده و QR Code
+</button>
+
+<button class="btn-secondary" onclick="resetForm()">
+پاک کردن فرم
+</button>
+
+</div>
+</div>
+
+<div class="card hidden" id="resultSection">
+
+<h2>✅ پرونده ایجاد شد</h2>
+
+<div class="record-id">
+شناسه پرونده:
+<span id="generatedId"></span>
+</div>
+
+<div class="qr-wrapper">
+<div id="qrcode"></div>
+</div>
+
+<div style="text-align:center">
+
+<button class="btn-success" onclick="downloadQR()">
+⬇️ دانلود QR Code
+</button>
+
+</div>
+
+<p style="text-align:center;color:#64748b;margin-top:15px">
+QR شامل نام، نام خانوادگی، کد ملی، شغل،
+بیماری‌ها و حساسیت‌ها است.
+<br>
+عکس داخل QR قرار نمی‌گیرد.
+</p>
+
+</div>
+
+<div class="card hidden" id="recordSection">
+
+<h2>📋 اطلاعات پرونده</h2>
+
+<div id="recordDetails"></div>
+
+</div>
+
+<div class="card">
+
+<h2>📷 اسکن QR Code</h2>
+
+<p>
+QR Code پرونده را با دوربین اسکن کنید.
+</p>
+
+<button class="btn-primary" onclick="startScanner()">
+📷 شروع اسکن
+</button>
+
+<div id="reader"></div>
+
+<div class="scan-status" id="scanStatus">
+آماده اسکن
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>💾 پرونده‌های این مرورگر</h2>
+
+<div id="savedRecords"></div>
+
+</div>
+
+</div>
+
+جانان, [2026/09/13 11:57 ق.ظ]
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<!-- فشرده‌سازی -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
-
-<!-- اسکن QR -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
-
 
 <script>
 
-  let problemCounter = 0;
-  let currentRecord = null;
-  let currentPhoto = null;
-  let scanner = null;
+let problemCounter=0;
+let currentRecord=null;
+let currentPhoto=null;
+let scanner=null;
 
+document.getElementById("photo").addEventListener("change",function(event){
 
-  // ==================================================
-  // عکس
-  // ==================================================
+const file=event.target.files[0];
 
-  document
-    .getElementById("photo")
-    .addEventListener("change", function(event) {
+if(!file){
+currentPhoto=null;
+document.getElementById("photoPreview").innerHTML="بدون عکس";
+return;
+}
 
-      const file = event.target.files[0];
+const reader=new FileReader();
 
-      if (!file) {
-        currentPhoto = null;
+reader.onload=function(e){
 
-جانان, [2026/09/13 09:29 ق.ظ]
-document.getElementById("photoPreview").innerHTML =
-          "بدون عکس";
+currentPhoto=e.target.result;
 
-        return;
-      }
+document.getElementById("photoPreview").innerHTML=
+<img src="${currentPhoto}" alt="عکس فرد">
+;
 
-      const reader = new FileReader();
+};
 
-      reader.onload = function(e) {
+reader.readAsDataURL(file);
 
-        currentPhoto = e.target.result;
+});
 
-        document.getElementById("photoPreview").innerHTML = 
-          <img src="${currentPhoto}" alt="عکس فرد">
-        ;
 
-      };
+function addProblem(){
 
-      reader.readAsDataURL(file);
+problemCounter++;
 
-    });
+const container=document.getElementById("problemsContainer");
 
+const div=document.createElement("div");
 
-  // ==================================================
-  // افزودن بیماری
-  // ==================================================
+div.className="problem";
 
-  function addProblem() {
+div.innerHTML=
 
-    problemCounter++;
+<div class="problem-title">
+بیماری شماره ${problemCounter}
+</div>
 
-    const container =
-      document.getElementById("problemsContainer");
+<div class="grid">
 
-    const div = document.createElement("div");
+<div class="field">
 
-    div.className = "problem";
+<label>نام بیماری</label>
 
-    div.dataset.number = problemCounter;
+<input
+type="text"
+class="problem-name"
+placeholder="مثلاً دیابت">
 
-    div.innerHTML = 
+</div>
 
-      <div class="problem-title">
-        بیماری شماره ${problemCounter}
-      </div>
+<div class="field">
 
-      <div class="grid">
+<label>وضعیت بیماری</label>
 
-        <div class="field">
-          <label>نام بیماری</label>
+<select class="problem-status">
 
-          <input
-            type="text"
-            class="problem-name"
-            placeholder="مثلاً دیابت"
-          >
-        </div>
+<option value="فعال">فعال</option>
+<option value="کنترل‌شده">کنترل‌شده</option>
+<option value="درمان‌شده">درمان‌شده</option>
+<option value="نامشخص">نامشخص</option>
 
+</select>
 
-        <div class="field">
+</div>
 
-          <label>وضعیت بیماری</label>
+<div class="field full">
 
-          <select class="problem-status">
+<label>توضیحات</label>
 
-            <option value="فعال">
-              فعال
-            </option>
+<textarea
+class="problem-description"
+placeholder="توضیحات مربوط به بیماری..."></textarea>
 
-            <option value="کنترل‌شده">
-              کنترل‌شده
-            </option>
+</div>
 
-            <option value="درمان‌شده">
-              درمان‌شده
-            </option>
+</div>
 
-            <option value="نامشخص">
-              نامشخص
-            </option>
+<button
+type="button"
+class="btn-danger"
+onclick="removeProblem(this)">
 
-          </select>
+🗑 حذف بیماری
 
-        </div>
+</button>
+;
 
+container.appendChild(div);
 
-        <div class="field full">
+}
 
-          <label>توضیحات</label>
 
-          <textarea
-            class="problem-description"
-            placeholder="توضیحات مربوط به بیماری..."
-          ></textarea>
+function removeProblem(button){
 
-        </div>
+button.closest(".problem").remove();
 
-      </div>
+updateProblemNumbers();
 
+}
 
-      <button
-        type="button"
-        class="btn-danger"
-        onclick="removeProblem(this)"
-      >
-        🗑 حذف بیماری
-      </button>
 
-    ;
+function updateProblemNumbers(){
 
-    container.appendChild(div);
+document.querySelectorAll(".problem").forEach((problem,index)=>{
 
-    updateProblemNumbers();
+problem.querySelector(".problem-title").textContent=
+بیماری شماره ${index+1};
 
-  }
+});
 
+}
 
-  // ==================================================
-  // حذف بیماری
-  // ==================================================
 
-  function removeProblem(button) {
+function collectProblems(){
 
-    button
-      .closest(".problem")
-      .remove();
+const problems=[];
 
-    updateProblemNumbers();
+document.querySelectorAll(".problem").forEach(problem=>{
 
-  }
+const name=
+problem.querySelector(".problem-name").value.trim();
 
+const status=
+problem.querySelector(".problem-status").value;
 
-  // ==================================================
-  // شماره‌گذاری بیماری‌ها
-  // ==================================================
+const description=
+problem.querySelector(".problem-description").value.trim();
 
-  function updateProblemNumbers() {
+if(name){
 
-    const problems =
-      document.querySelectorAll(".problem");
+problems.push({
+name:name,
+status:status,
+description:description
+});
 
-    problems.forEach((problem, index) => {
+}
 
-      problem.querySelector(".problem-title").textContent =
-        بیماری شماره ${index + 1};
+});
 
-    });
+return problems;
 
-  }
+}
 
 
-  // ==================================================
-  // جمع‌آوری بیماری‌ها
-  // ==================================================
+function generateRecordId(){
 
-  function collectProblems() {
+const random=
+Math.random().toString(36).substring(2,10).toUpperCase();
 
-    const problems = [];
+return "MED-"+Date.now()+"-"+random;
 
-    document
-      .querySelectorAll(".problem")
-      .forEach(problem => {
+}
 
-        const name =
-          problem
-            .querySelector(".problem-name")
-            .value
-            .trim();
 
-        const status =
-          problem
-            .querySelector(".problem-status")
-            .value;
+function createRecord(){
 
-        const description =
-          problem
-            .querySelector(".problem-description")
-            .value
-            .trim();
+const firstName=
+document.getElementById("firstName").value.trim();
 
+const lastName=
+document.getElementById("lastName").value.trim();
 
-        if (name) {
+const nationalId=
+document.getElementById("nationalId").value.trim();
 
-          problems.push({
-            name,
-            status,
-            description
-          });
+const job=
+document.getElementById("job").value.trim();
 
-        }
+const allergies=
+document.getElementById("allergies").value.trim();
 
-      });
+if(!firstName||!lastName||!nationalId||!job){
 
-    return problems;
+alert("لطفاً نام، نام خانوادگی، کد ملی و شغل را وارد کنید.");
 
-  }
+return;
 
+}
 
-  // ==================================================
-  // ساخت شناسه
-  // ==================================================
+const record={
 
-  function generateRecordId() {
+version:1,
 
-    const random =
-      Math.random()
-        .toString(36)
-        .substring(2, 10)
-        .toUpperCase();
+id:generateRecordId(),
 
-    return MED-${Date.now()}-${random};
+createdAt:new Date().toISOString(),
 
-  }
+person:{
 
+firstName:firstName,
+lastName:lastName,
+nationalId:nationalId,
+job:job,
+allergies:allergies
 
-  // ==================================================
-  // ایجاد پرونده
-  // ==================================================
+},
 
-  function createRecord() {
+medicalProblems:collectProblems(),
 
-جانان, [2026/09/13 09:29 ق.ظ]
-const firstName =
-      document.getElementById("firstName")
-        .value
-        .trim();
+photo:currentPhoto||null
 
-    const lastName =
-      document.getElementById("lastName")
-        .value
-        .trim();
+};
 
-    const nationalId =
-      document.getElementById("nationalId")
-        .value
-        .trim();
+currentRecord=record;
 
-    const job =
-      document.getElementById("job")
-        .value
-        .trim();
+saveRecord(record);
 
-    const allergies =
-      document.getElementById("allergies")
-        .value
-        .trim();
+createQR(record);
 
+document.getElementById("generatedId").textContent=record.id;
 
-    if (!firstName ||
-        !lastName ||
-        !nationalId ||
-        !job) {
+document.getElementById("resultSection").classList.remove("hidden");
 
-      alert(
-        "لطفاً نام، نام خانوادگی، کد ملی و شغل را وارد کنید."
-      );
+displayRecord(record);
 
-      return;
+document.getElementById("recordSection").classList.remove("hidden");
 
-    }
+document.getElementById("resultSection").scrollIntoView({
+behavior:"smooth"
+});
 
+}
 
-    const record = {
 
-      version: 1,
+function createQR(record){
 
-      id: generateRecordId(),
+const container=document.getElementById("qrcode");
 
-      createdAt:
-        new Date().toISOString(),
+container.innerHTML="";
 
-      person: {
+const qrData={
 
-        firstName,
+version:record.version,
 
-        lastName,
+id:record.id,
 
-        nationalId,
+person:{
 
-        job,
+جانان, [2026/09/13 11:57 ق.ظ]
+firstName:record.person.firstName,
+lastName:record.person.lastName,
+nationalId:record.person.nationalId,
+job:record.person.job,
+allergies:record.person.allergies
 
-        allergies
+},
 
-      },
+medicalProblems:record.medicalProblems
 
-      medicalProblems:
-        collectProblems()
+};
 
-    };
+const json=JSON.stringify(qrData);
 
+const compressed=
+LZString.compressToEncodedURIComponent(json);
 
-    currentRecord = record;
+new QRCode(container,{
 
+text:compressed,
+width:280,
+height:280,
+correctLevel:QRCode.CorrectLevel.M
 
-    // ذخیره محلی
-    saveRecord(record);
+});
 
+}
 
-    // ساخت QR
-    createQR(record);
 
+function displayRecord(record){
 
-    // نمایش
-    document
-      .getElementById("resultSection")
-      .classList.remove("hidden");
+const p=record.person;
 
+const photo=record.photo||currentPhoto;
 
-    displayRecord(record);
+let html=
 
+<div class="person-card">
 
-    document
-      .getElementById("recordSection")
-      .classList.remove("hidden");
+<div class="person-photo">
 
+${
+photo
+?
+<img src="${photo}" alt="عکس فرد">
+:
 
-    document
-      .getElementById("resultSection")
-      .scrollIntoView({
-        behavior: "smooth"
-      });
+<div style="
+width:100%;
+height:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#64748b;">
+بدون عکس
+</div>
 
-  }
+}
 
+</div>
 
-  // ==================================================
-  // ساخت QR
-  // ==================================================
+<div class="person-info">
 
-  function createQR(record) {
+<h3>
+${safe(p.firstName)}
+${safe(p.lastName)}
+</h3>
 
-    const container =
-      document.getElementById("qrcode");
+<div class="info-row">
 
-    container.innerHTML = "";
+<div class="info-item">
 
+<strong>کد ملی</strong>
 
-    /*
-      فقط اطلاعات پزشکی داخل QR قرار می‌گیرد.
-      عکس عمداً وارد QR نمی‌شود.
-    */
+${safe(p.nationalId)}
 
-    const qrData = {
+</div>
 
-      version: record.version,
+<div class="info-item">
 
-      id: record.id,
+<strong>شغل</strong>
 
-      person: {
+${safe(p.job)}
 
-        firstName:
-          record.person.firstName,
+</div>
 
-        lastName:
-          record.person.lastName,
+</div>
 
-        nationalId:
-          record.person.nationalId,
+<div class="allergy-box">
 
-        job:
-          record.person.job,
+<strong>⚠️ حساسیت‌ها</strong>
 
-        allergies:
-          record.person.allergies
+<br><br>
 
-      },
+${
+p.allergies
+?
+safe(p.allergies)
+:
+"حساسیتی ثبت نشده است."
+}
 
-      medicalProblems:
-        record.medicalProblems
+</div>
 
-    };
+</div>
 
+</div>
 
-    const json =
-      JSON.stringify(qrData);
+<h3>🩺 بیماری‌ها</h3>
+;
 
+if(!record.medicalProblems||record.medicalProblems.length===0){
 
-    const compressed =
-      LZString
-        .compressToEncodedURIComponent(json);
+html+=
+<p class="empty">
+بیماری‌ای ثبت نشده است.
+</p>
+;
 
+}else{
 
-    new QRCode(container, {
+record.medicalProblems.forEach(problem=>{
 
-      text: compressed,
+html+=
 
-      width: 280,
+<div class="medical-problem">
 
-      height: 280,
+<h4>
+${safe(problem.name)}
+</h4>
 
-      correctLevel:
-        QRCode.CorrectLevel.M
+<div>
+<strong>وضعیت:</strong>
+${safe(problem.status)}
+</div>
 
-    });
+${
+problem.description
+?
 
-  }
+<div style="margin-top:8px">
+<strong>توضیحات:</strong>
+${safe(problem.description)}
+</div>
 
+:
+""
+}
 
-  // ==================================================
-  // نمایش پرونده
-  // ==================================================
+</div>
+;
 
-  function displayRecord(record) {
+});
 
-    const p = record.person;
+}
 
+html+=
 
-    let html = 
+<div class="record-id">
 
-      <div class="person-card">
+شناسه پرونده:
+${safe(record.id)}
 
-        <div class="person-photo">
+</div>
+;
 
-          ${
-            currentPhoto
-            ?
-            <img
-              src="${currentPhoto}"
-              alt="عکس ${safe(p.firstName)}"
-            >
-            :
-            <div style="
-              width:100%;
-              height:100%;
-              display:flex;
-              align-items:center;
-              justify-content:center;
-              color:#64748b;
-            ">
-              بدون عکس
-            </div>
-          }
+document.getElementById("recordDetails").innerHTML=html;
 
-        </div>
+}
 
 
-        <div class="person-info">
+function saveRecord(record){
 
-          <h3>
-            ${safe(p.firstName)}
-            ${safe(p.lastName)}
-          </h3>
+const records=
+JSON.parse(localStorage.getItem("medicalRecords")||"[]");
 
+const index=
+records.findIndex(item=>item.id===record.id);
 
-          <div class="info-row">
+if(index>=0){
 
-            <div class="info-item">
+records[index]=record;
 
-              <strong>کد ملی</strong>
+}else{
 
-              ${safe(p.nationalId)}
+records.push(record);
 
-            </div>
+}
 
+localStorage.setItem(
+"medicalRecords",
+JSON.stringify(records)
+);
 
-            <div class="info-item">
+loadSavedRecords();
 
-              <strong>شغل</strong>
+}
 
-              ${safe(p.job)}
 
-            </div>
+function loadSavedRecords(){
 
-          </div>
+const container=document.getElementById("savedRecords");
 
+const records=
+JSON.parse(localStorage.getItem("medicalRecords")||"[]");
 
-          <div class="allergy-box">
+if(records.length===0){
 
-            <strong>
-              ⚠️ حساسیت‌ها
-            </strong>
+container.innerHTML=
+<div class="empty">
+هنوز پرونده‌ای ذخیره نشده است.
+</div>
+;
 
-            <br><br>
+return;
 
-            ${
-              p.allergies
-              ?
-              safe(p.allergies)
-              :
-              "حساسیتی ثبت نشده است."
-            }
+}
 
-          </div>
+container.innerHTML="";
 
-        </div>
+records.slice().reverse().forEach(record=>{
 
-      </div>
+const item=document.createElement("div");
 
+item.className="saved-item";
 
-      <h3>
-        🩺 بیماری‌ها
-      </h3>
+item.innerHTML=
 
-    ;
+<div>
 
-جانان, [2026/09/13 09:29 ق.ظ]
-if (
-      !record.medicalProblems ||
-      record.medicalProblems.length === 0
-    ) {
+<strong>
+${safe(record.person.firstName)}
+${safe(record.person.lastName)}
+</strong>
 
-      html += 
-        <p style="color:#64748b;">
-          بیماری‌ای ثبت نشده است.
-        </p>
-      ;
+<br>
 
-    } else {
+<small>
+کد ملی:
+${safe(record.person.nationalId)}
+</small>
 
-      record.medicalProblems
-        .forEach(problem => {
+<br>
 
-          html += 
+<small>
+شناسه:
+${safe(record.id)}
+</small>
 
-            <div class="medical-problem">
+</div>
 
-              <h4>
-                ${safe(problem.name)}
-              </h4>
+<button
+class="btn-secondary"
+onclick="openSavedRecord('${record.id}')">
 
-              <div>
-                <strong>وضعیت:</strong>
-                ${safe(problem.status)}
-              </div>
+مشاهده
 
-              ${
-                problem.description
-                ?
-                
-                  <div style="margin-top:8px;">
-                    <strong>توضیحات:</strong>
-                    ${safe(problem.description)}
-                  </div>
-                
-                :
-                ""
-              }
+</button>
 
-            </div>
+;
 
-          ;
+container.appendChild(item);
 
-        });
+});
 
-    }
+}
 
 
-    html += 
+function openSavedRecord(id){
 
-      <div class="record-id">
+const records=
+JSON.parse(localStorage.getItem("medicalRecords")||"[]");
 
-        شناسه پرونده:
-        ${safe(record.id)}
+const record=
+records.find(item=>item.id===id);
 
-      </div>
+if(!record){
 
-    ;
+alert("پرونده پیدا نشد.");
 
+return;
 
-    document
-      .getElementById("recordDetails")
-      .innerHTML = html;
+}
 
-  }
+currentRecord=record;
+currentPhoto=record.photo||null;
 
+displayRecord(record);
 
-  // ==================================================
-  // ذخیره در LocalStorage
-  // ==================================================
+document.getElementById("recordSection").classList.remove("hidden");
 
-  function saveRecord(record) {
+document.getElementById("recordSection").scrollIntoView({
+behavior:"smooth"
+});
 
-    const records =
-      JSON.parse(
-        localStorage.getItem("medicalRecords")
-        || "[]"
-      );
+}
 
 
-    const index =
-      records.findIndex(
-        item => item.id === record.id
-      );
+function downloadQR(){
 
+const qr=document.getElementById("qrcode");
 
-    if (index >= 0) {
+const canvas=qr.querySelector("canvas");
 
-      records[index] = record;
+if(!canvas){
 
-    } else {
+alert("QR Code هنوز ساخته نشده است.");
 
-      records.push(record);
+return;
 
-    }
+}
 
+const link=document.createElement("a");
 
-    localStorage.setItem(
-      "medicalRecords",
-      JSON.stringify(records)
-    );
+link.href=canvas.toDataURL("image/png");
 
+link.download=${currentRecord.id}-QR.png;
 
-    loadSavedRecords();
+link.click();
 
-  }
+}
 
 
-  // ==================================================
-  // نمایش پرونده‌های ذخیره شده
-  // ==================================================
+async function startScanner(){
 
-  function loadSavedRecords() {
+const status=document.getElementById("scanStatus");
 
-    const container =
-      document.getElementById("savedRecords");
+status.textContent="در حال راه‌اندازی دوربین...";
 
+if(scanner){
 
-    const records =
-      JSON.parse(
-        localStorage.getItem("medicalRecords")
-        || "[]"
-      );
+try{
+await scanner.stop();
+}catch(e){}
 
+}
 
-    if (records.length === 0) {
+scanner=new Html5Qrcode("reader");
 
-      container.innerHTML =
-        <p style="color:#64748b;">
-          هنوز پرونده‌ای ذخیره نشده است.
-        </p>;
+try{
 
-      return;
+await scanner.start(
 
-    }
+{facingMode:"environment"},
 
+{
+fps:10,
+qrbox:{width:280,height:280}
+},
 
-    container.innerHTML = "";
+onScanSuccess,
+onScanFailure
 
+);
 
-    records
-      .slice()
-      .reverse()
-      .forEach(record => {
+جانان, [2026/09/13 11:57 ق.ظ]
+status.textContent=
+"📷 دوربین فعال است؛ QR را مقابل دوربین قرار دهید.";
 
-        const item =
-          document.createElement("div");
+}catch(error){
 
-        item.className =
-          "saved-item";
+console.error(error);
 
+status.textContent=
+"❌ دسترسی به دوربین امکان‌پذیر نشد.";
 
-        item.innerHTML = 
+alert(
+"دسترسی به دوربین امکان‌پذیر نشد. اجازه دوربین را به مرورگر بدهید."
+);
 
-          <div>
+}
 
-            <strong>
-              ${safe(record.person.firstName)}
-              ${safe(record.person.lastName)}
-            </strong>
+}
 
-            <br>
 
-            <small>
-              کد ملی:
-              ${safe(record.person.nationalId)}
-            </small>
+async function onScanSuccess(decodedText){
 
-            <br>
+const status=document.getElementById("scanStatus");
 
-            <small>
-              شناسه:
-              ${safe(record.id)}
-            </small>
+status.textContent="✅ QR Code شناسایی شد.";
 
-          </div>
+try{
 
+if(scanner){
+await scanner.stop();
+}
 
-          <button
-            class="btn-secondary"
-            onclick="openSavedRecord('${record.id}')"
-          >
-            مشاهده
-          </button>
+}catch(e){}
 
-        ;
+processQR(decodedText);
 
+}
 
-        container.appendChild(item);
 
-      });
+function onScanFailure(error){
 
-  }
+}
 
 
-  // ==================================================
-  // باز کردن پرونده ذخیره شده
-  // ==================================================
+function processQR(qrText){
 
-  function openSavedRecord(id) {
+try{
 
-    const records =
-      JSON.parse(
-        localStorage.getItem("medicalRecords")
-        || "[]"
-      );
+const json=
+LZString.decompressFromEncodedURIComponent(qrText);
 
+if(!json){
 
-    const record =
-      records.find(
-        item => item.id === id
-      );
+throw new Error("QR Code معتبر نیست.");
 
+}
 
-    if (!record) {
+const data=JSON.parse(json);
 
-      alert("پرونده پیدا نشد.");
+if(!data.id||!data.person){
 
-      return;
+throw new Error("ساختار پرونده صحیح نیست.");
 
-    }
+}
 
+const saved=getSavedRecord(data.id);
 
-    currentRecord = record;
+const record={
 
+version:data.version||1,
 
-    displayRecord(record);
+id:data.id,
 
+person:{
 
-    document
-      .getElementById("recordSection")
-      .classList.remove("hidden");
+firstName:data.person.firstName||"",
+lastName:data.person.lastName||"",
+nationalId:data.person.nationalId||"",
+job:data.person.job||"",
+allergies:data.person.allergies||""
 
+},
 
-    document
-      .getElementById("recordSection")
-      .scrollIntoView({
-        behavior: "smooth"
-      });
+medicalProblems:data.medicalProblems||[],
 
-  }
+photo:saved?saved.photo:null
 
+};
 
-  // ==================================================
-  // دانلود QR
-  // ==================================================
+currentRecord=record;
 
-  function downloadQR() {
+currentPhoto=record.photo||null;
 
-    const qr =
-      document.getElementById("qrcode");
+saveRecord(record);
 
-جانان, [2026/09/13 09:29 ق.ظ]
-const records =
-      JSON.parse(
-        localStorage.getItem("medicalRecords")
-        || "[]"
-      );
+displayRecord(record);
 
+document.getElementById("recordSection").classList.remove("hidden");
 
-    return records.find(
-      record => record.id === id
-    );
+document.getElementById("recordSection").scrollIntoView({
+behavior:"smooth"
+});
 
-  }
+}catch(error){
 
+console.error(error);
 
-  // ==================================================
-  // پاک کردن فرم
-  // ==================================================
+alert("❌ این QR Code مربوط به پرونده معتبر نیست.");
 
-  function resetForm() {
+}
 
-    document
-      .getElementById("firstName")
-      .value = "";
+}
 
-    document
-      .getElementById("lastName")
-      .value = "";
 
-    document
-      .getElementById("nationalId")
-      .value = "";
+function getSavedRecord(id){
 
-    document
-      .getElementById("job")
-      .value = "";
+const records=
+JSON.parse(localStorage.getItem("medicalRecords")||"[]");
 
-    document
-      .getElementById("allergies")
-      .value = "";
+return records.find(record=>record.id===id);
 
-    document
-      .getElementById("photo")
-      .value = "";
+}
 
 
-    currentPhoto = null;
+function resetForm(){
 
+document.getElementById("firstName").value="";
+document.getElementById("lastName").value="";
+document.getElementById("nationalId").value="";
+document.getElementById("job").value="";
+document.getElementById("allergies").value="";
+document.getElementById("photo").value="";
 
-    document
-      .getElementById("photoPreview")
-      .innerHTML = "بدون عکس";
+currentPhoto=null;
 
+document.getElementById("photoPreview").innerHTML="بدون عکس";
 
-    document
-      .getElementById("problemsContainer")
-      .innerHTML = "";
+document.getElementById("problemsContainer").innerHTML="";
 
+problemCounter=0;
 
-    problemCounter = 0;
+addProblem();
 
-    addProblem();
+document.getElementById("resultSection").classList.add("hidden");
 
+document.getElementById("recordSection").classList.add("hidden");
 
-    document
-      .getElementById("resultSection")
-      .classList.add("hidden");
+}
 
 
-    document
-      .getElementById("recordSection")
-      .classList.add("hidden");
+function safe(value){
 
-  }
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
+}
 
-  // ==================================================
-  // جلوگیری از HTML Injection
-  // ==================================================
 
-  function safe(value) {
+document.addEventListener("DOMContentLoaded",function(){
 
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+addProblem();
+loadSavedRecords();
 
-  }
-
-
-  // ==================================================
-  // شروع اولیه
-  // ==================================================
-
-  document.addEventListener(
-    "DOMContentLoaded",
-    function() {
-
-      addProblem();
-
-      loadSavedRecords();
-
-    }
-  );
+});
 
 </script>
 
 </body>
 </html>
-
-جانان, [2026/09/13 09:29 ق.ظ]
-const canvas =
-      qr.querySelector("canvas");
-
-
-    if (!canvas) {
-
-      alert("QR Code هنوز ساخته نشده.");
-
-      return;
-
-    }
-
-
-    const link =
-      document.createElement("a");
-
-
-    link.href =
-      canvas.toDataURL("image/png");
-
-
-    link.download =
-      ${currentRecord.id}-QR.png;
-
-
-    link.click();
-
-  }
-
-
-  // ==================================================
-  // شروع اسکن
-  // ==================================================
-
-  async function startScanner() {
-
-    const status =
-      document.getElementById("scanStatus");
-
-
-    status.textContent =
-      "در حال راه‌اندازی دوربین...";
-
-
-    if (scanner) {
-
-      try {
-
-        await scanner.stop();
-
-      } catch (e) {}
-
-    }
-
-
-    scanner =
-      new Html5Qrcode("reader");
-
-
-    try {
-
-      await scanner.start(
-
-        {
-          facingMode: "environment"
-        },
-
-        {
-          fps: 10,
-          qrbox: {
-            width: 280,
-            height: 280
-          }
-        },
-
-        onScanSuccess,
-
-        onScanFailure
-
-      );
-
-
-      status.textContent =
-        "📷 دوربین فعال است؛ QR Code را مقابل دوربین قرار دهید.";
-
-    } catch (error) {
-
-      console.error(error);
-
-      status.textContent =
-        "❌ دسترسی به دوربین امکان‌پذیر نشد.";
-
-      alert(
-        "برای استفاده از دوربین باید اجازه دسترسی به دوربین را بدهید. در بعضی مرورگرها استفاده از دوربین نیاز به HTTPS دارد."
-      );
-
-    }
-
-  }
-
-
-  // ==================================================
-  // اسکن موفق
-  // ==================================================
-
-  async function onScanSuccess(decodedText) {
-
-    const status =
-      document.getElementById("scanStatus");
-
-
-    status.textContent =
-      "✅ QR Code شناسایی شد.";
-
-
-    try {
-
-      if (scanner) {
-
-        await scanner.stop();
-
-      }
-
-    } catch (e) {}
-
-
-    processQR(decodedText);
-
-  }
-
-
-  function onScanFailure(error) {
-
-    // عمداً چیزی نمایش نمی‌دهیم
-  }
-
-
-  // ==================================================
-  // پردازش QR
-  // ==================================================
-
-  function processQR(qrText) {
-
-    try {
-
-      const json =
-        LZString
-          .decompressFromEncodedURIComponent(
-            qrText
-          );
-
-
-      if (!json) {
-
-        throw new Error(
-          "QR Code معتبر نیست."
-        );
-
-      }
-
-
-      const data =
-        JSON.parse(json);
-
-
-      if (
-        !data.id ||
-        !data.person
-      ) {
-
-        throw new Error(
-          "ساختار پرونده صحیح نیست."
-        );
-
-      }
-
-
-      /*
-        اطلاعات QR را به پرونده تبدیل می‌کنیم.
-      */
-
-      const record = {
-
-        version:
-          data.version || 1,
-
-        id:
-          data.id,
-
-        person: {
-
-          firstName:
-            data.person.firstName || "",
-
-          lastName:
-            data.person.lastName || "",
-
-          nationalId:
-            data.person.nationalId || "",
-
-          job:
-            data.person.job || "",
-
-          allergies:
-            data.person.allergies || ""
-
-        },
-
-        medicalProblems:
-          data.medicalProblems || []
-
-      };
-
-
-      currentRecord = record;
-
-
-      /*
-        اگر QR روی همان مرورگری اسکن شود
-        که عکس قبلاً در آن ذخیره شده،
-        عکس جداگانه نمایش داده می‌شود.
-      */
-
-      const saved =
-        getSavedRecord(record.id);
-
-
-      if (saved && saved.photo) {
-
-        currentPhoto =
-          saved.photo;
-
-      } else {
-
-        currentPhoto =
-          null;
-
-      }
-
-
-      saveRecord(record);
-
-
-      displayRecord(record);
-
-
-      document
-        .getElementById("recordSection")
-        .classList.remove("hidden");
-
-
-      document
-        .getElementById("recordSection")
-        .scrollIntoView({
-          behavior: "smooth"
-        });
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      alert(
-        "❌ این QR Code مربوط به پرونده پزشکی معتبر نیست."
-      );
-
-    }
-
-  }
-
-
-  // ==================================================
-  // پیدا کردن پرونده ذخیره شده
-  // ==================================================
-
-  function getSavedRecord(id) {
