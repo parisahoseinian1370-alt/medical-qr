@@ -1,737 +1,197 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>پرونده پزشکی دیجیتال</title>
+recordSection.classList.remove(
+            "hidden"
+        );
 
-<style>
-* {
-  box-sizing: border-box;
+
+        recordSection.scrollIntoView({
+            behavior:"smooth"
+        });
+
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "❌ این QR Code مربوط به پرونده معتبر نیست."
+        );
+
+    }
+
 }
 
-body {
-  margin: 0;
-  font-family: Tahoma, Arial, sans-serif;
-  background: #f3f6f9;
-  color: #17202a;
+
+/* =========================================
+   پاک کردن فرم
+========================================= */
+
+resetButton.addEventListener(
+    "click",
+    function(){
+
+        document.getElementById(
+            "firstName"
+        ).value = "";
+
+
+        document.getElementById(
+            "lastName"
+        ).value = "";
+
+
+        document.getElementById(
+            "nationalId"
+        ).value = "";
+
+
+        document.getElementById(
+            "job"
+        ).value = "";
+
+
+        document.getElementById(
+            "allergies"
+        ).value = "";
+
+
+        photoInput.value = "";
+
+
+        currentPhoto = null;
+
+
+        photoPreview.textContent =
+        "بدون عکس";
+
+
+        /*
+        فقط یک کادر بیماری نگه می‌داریم
+        */
+
+        problemsContainer.innerHTML =
+
+        '<div class="problem">' +
+
+        '<div class="problem-title">' +
+        'بیماری شماره 1' +
+        '</div>' +
+
+        '<div class="grid">' +
+
+        '<div class="field">' +
+
+        '<label>نام بیماری</label>' +
+
+        '<input ' +
+        'type="text" ' +
+        'class="problem-name" ' +
+        'placeholder="مثلاً دیابت">' +
+
+        '</div>' +
+
+        '<div class="field">' +
+
+        '<label>وضعیت بیماری</label>' +
+
+        '<select class="problem-status">' +
+
+        '<option value="فعال">فعال</option>' +
+
+        '<option value="کنترل‌شده">کنترل‌شده</option>' +
+
+        '<option value="درمان‌شده">درمان‌شده</option>' +
+
+        '<option value="نامشخص">نامشخص</option>' +
+
+        '</select>' +
+
+        '</div>' +
+
+        '<div class="field full">' +
+
+        '<label>توضیحات بیماری</label>' +
+
+        '<textarea ' +
+        'class="problem-description" ' +
+        'placeholder="توضیحات مربوط به بیماری...">' +
+        '</textarea>' +
+
+        '</div>' +
+
+        '</div>' +
+
+        '<button ' +
+        'type="button" ' +
+        'class="btn-danger remove-problem">' +
+
+        '🗑 حذف این بیماری' +
+
+        '</button>' +
+
+        '</div>';
+
+
+        problemCounter = 1;
+
+
+        resultSection.classList.add(
+            "hidden"
+        );
+
+
+        recordSection.classList.add(
+            "hidden"
+        );
+
+    }
+);
+
+
+/* =========================================
+   ایمن کردن متن
+========================================= */
+
+function safe(value){
+
+    return String(value || "")
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
 }
 
-header {
-  background: linear-gradient(135deg, #087f8c, #075985);
-  color: white;
-  padding: 30px 15px;
-  text-align: center;
-}
 
-header h1 {
-  margin: 0 0 10px;
-  font-size: 28px;
-}
+/* =========================================
+   شروع بایگانی
+========================================= */
 
-header p {
-  margin: 0;
-}
+loadArchive();
 
-.container {
-  width: min(1000px, 94%);
-  margin: 25px auto;
-}
 
-.card {
-  background: white;
-  border-radius: 18px;
-  padding: 25px;
-  margin-bottom: 22px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.07);
-}
+</script>
 
-.card h2 {
-  margin-top: 0;
-  color: #075985;
-  border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 12px;
-}
+</body>
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-}
-
-.full {
-  grid-column: 1 / -1;
-}
-
-label {
-  font-weight: bold;
-  font-size: 14px;
-}
-
-input,
-textarea,
-select {
-  width: 100%;
-  border: 1px solid #d5dbe0;
-  border-radius: 10px;
-  padding: 12px;
-  font-family: inherit;
-  font-size: 15px;
-  background: white;
-  outline: none;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: #087f8c;
-}
-
-textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
-button {
-  border: none;
-  border-radius: 10px;
-  padding: 12px 18px;
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  margin: 4px;
-}
-
-.btn-primary {
-  background: #087f8c;
-  color: white;
-}
-
-.btn-secondary {
-  background: #e2e8f0;
-  color: #1e293b;
-}
-
-.btn-danger {
-  background: #fee2e2;
-  color: #b91c1c;
-}
-
-.btn-success {
-  background: #16a34a;
-  color: white;
-}
-
-.actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.hidden {
-  display: none !important;
-}
-
-/* عکس */
-
-.photo-area {
-  display: flex;
-  align-items: center;
-  gap: 25px;
-  flex-wrap: wrap;
-}
-
-.photo-preview {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background: #f1f5f9;
-  border: 3px solid #dbeafe;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  color: #64748b;
-  flex-shrink: 0;
-}
-
-.photo-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* بیماری */
-
-.problem {
-  border: 1px solid #dce3e8;
-  background: #f8fafc;
-  border-radius: 14px;
-  padding: 18px;
-  margin-bottom: 15px;
-}
-
-.problem-title {
-  font-weight: bold;
-  color: #075985;
-  margin-bottom: 15px;
-}
-
-/* QR */
-
-.qr-wrapper {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  background: #f8fafc;
-  border-radius: 15px;
-  margin: 20px 0;
-}
-
-#qrcode {
-  background: white;
-  padding: 15px;
-}
-
-/* شناسه */
-
-.record-id {
-  background: #ecfeff;
-  border: 1px solid #a5f3fc;
-  padding: 14px;
-  border-radius: 10px;
-  text-align: center;
-  font-weight: bold;
-  color: #155e75;
-  word-break: break-word;
-}
-
-/* نمایش پرونده */
-
-.person-card {
-  display: flex;
-  gap: 25px;
-  align-items: flex-start;
-  background: #f8fafc;
-  border-radius: 15px;
-  padding: 20px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-
-.person-photo {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 4px solid white;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.12);
-  background: #e2e8f0;
-  flex-shrink: 0;
-}
-
-.person-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.person-info {
-  flex: 1;
-  min-width: 250px;
-}
-
-.person-info h3 {
-  margin-top: 0;
-  font-size: 24px;
-  color: #075985;
-}
-
-.info-row {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.info-item {
-  background: white;
-  border-radius: 10px;
-  padding: 12px;
-  border: 1px solid #e2e8f0;
-}
-
-.info-item strong {
-  display: block;
-  color: #64748b;
-  font-size: 12px;
-  margin-bottom: 5px;
-}
-
-.medical-problem {
-  border-right: 5px solid #ef4444;
-  background: #fff7f7;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 12px;
-}
-
-.medical-problem h4 {
-  margin: 0 0 8px;
-  color: #991b1b;
-}
-
-جانان, [2026/09/14 01:51 ب.ظ]
-.allergy-box {
-  background: #fff7ed;
-  border: 1px solid #fed7aa;
-  color: #9a3412;
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 15px;
-}
-
-/* اسکن */
-
-#reader {
-  width: 100%;
-  max-width: 500px;
-  margin: 20px auto;
-}
-
-.scan-status {
-  text-align: center;
-  padding: 12px;
-  background: #f1f5f9;
-  border-radius: 10px;
-}
-
-/* بایگانی */
-
-.archive-search {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.archive-item {
-  border: 1px solid #dbe3ea;
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 12px;
-  background: #f8fafc;
-}
-
-.archive-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.archive-name {
-  font-size: 18px;
-  font-weight: bold;
-  color: #075985;
-}
-
-.archive-meta {
-  color: #64748b;
-  font-size: 13px;
-  margin-top: 8px;
-}
-
-.empty {
-  text-align: center;
-  color: #64748b;
-  padding: 25px;
-}
-
-.notice {
-  background: #fff7ed;
-  border: 1px solid #fed7aa;
-  color: #9a3412;
-  padding: 15px;
-  border-radius: 12px;
-  line-height: 1.8;
-}
-
-@media (max-width: 700px) {
-
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .full {
-    grid-column: auto;
-  }
-
-  .info-row {
-    grid-template-columns: 1fr;
-  }
-
-  .archive-search {
-    grid-template-columns: 1fr;
-  }
-
-  .person-card {
-    justify-content: center;
-    text-align: center;
-  }
-
-  header h1 {
-    font-size: 23px;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<header>
-  <h1>🩺 پرونده پزشکی دیجیتال</h1>
-  <p>ثبت، بایگانی و مشاهده پرونده‌های پزشکی</p>
-</header>
-
-<div class="container">
-
-<div class="notice">
-  ⚠️ این نسخه برای نمونه اولیه و آزمایش است.
-  برای اطلاعات پزشکی واقعی، قبل از استفاده باید سیستم امنیتی و سرور امن اضافه شود.
-</div>
-
-<!-- مشخصات فرد -->
-
-<div class="card">
-
-<h2>👤 مشخصات فرد</h2>
-
-<div class="photo-area">
-
-<div class="photo-preview" id="photoPreview">
-  بدون عکس
-</div>
-
-<div style="flex:1;min-width:250px">
-
-<div class="field">
-
-<label for="photo">عکس فرد</label>
-
-<input
-  type="file"
-  id="photo"
-  accept="image/*"
->
-
-</div>
-
-<p style="color:#64748b;font-size:13px">
-عکس فقط برای نمایش در پرونده ذخیره می‌شود و
-<strong>داخل QR Code قرار نمی‌گیرد.</strong>
-</p>
-
-</div>
-
-</div>
-
-<br>
-
-<div class="grid">
-
-<div class="field">
-
-<label for="firstName">نام</label>
-
-<input
-  id="firstName"
-  type="text"
-  placeholder="مثلاً علی"
->
-
-</div>
-
-<div class="field">
-
-<label for="lastName">نام خانوادگی</label>
-
-<input
-  id="lastName"
-  type="text"
-  placeholder="مثلاً رضایی"
->
-
-</div>
-
-<div class="field">
-
-<label for="nationalId">کد ملی</label>
-
-<input
-  id="nationalId"
-  type="text"
-  inputmode="numeric"
-  maxlength="10"
-  placeholder="مثلاً 0012345678"
->
-
-</div>
-
-<div class="field">
-
-<label for="job">شغل</label>
-
-<input
-  id="job"
-  type="text"
-  placeholder="مثلاً مهندس"
->
-
-</div>
-
-</div>
-
-</div>
-
-<!-- بیماری ها -->
-
-<div class="card">
-
-<h2>🩺 بیماری‌ها</h2>
-
-<div id="problemsContainer"></div>
-
-<button
-  type="button"
-  class="btn-secondary"
-  id="addProblemButton"
->
-+ افزودن بیماری
-</button>
-
-</div>
-
-<!-- حساسیت -->
-
-<div class="card">
-
-<h2>⚠️ حساسیت‌ها</h2>
-
-<div class="field">
-
-<label for="allergies">
-حساسیت‌های دارویی، غذایی یا سایر موارد
-</label>
-
-<textarea
-  id="allergies"
-  placeholder="مثلاً حساسیت به پنی‌سیلین، بادام زمینی..."
-></textarea>
-
-</div>
-
-</div>
-
-<!-- ایجاد -->
-
-<div class="card">
-
-<div class="actions">
-
-<button
-  class="btn-primary"
-  id="createRecordButton"
->
-🧾 ایجاد پرونده و QR Code
-</button>
-
-<button
-  class="btn-secondary"
-  id="resetButton"
->
-پاک کردن فرم
-</button>
-
-</div>
-
-</div>
-
-<!-- QR -->
-
-<div
-  class="card hidden"
-  id="resultSection"
->
-
-<h2>✅ پرونده ایجاد شد</h2>
-
-<div class="record-id">
-شناسه پرونده:
-<span id="generatedId"></span>
-</div>
-
-<div class="qr-wrapper">
-
-<div id="qrcode"></div>
-
-</div>
-
-<div style="text-align:center">
-
-<button
-  class="btn-success"
-  id="downloadQRButton"
->
-⬇️ دانلود QR Code
-</button>
-
-</div>
-
-<p style="text-align:center;color:#64748b">
-QR شامل نام، نام خانوادگی، کد ملی، شغل،
-بیماری‌ها و حساسیت‌ها است.
-<br>
-عکس داخل QR قرار نمی‌گیرد.
-</p>
-
-</div>
-
-<!-- نمایش پرونده -->
-
-<div
-  class="card hidden"
-  id="recordSection"
->
-
-<h2>📋 اطلاعات پرونده</h2>
-
-<div id="recordDetails"></div>
-
-</div>
-
-<!-- اسکن -->
-
-<div class="card">
-
-<h2>📷 اسکن QR Code</h2>
-
-<p>
-QR Code پرونده را با دوربین اسکن کنید.
-</p>
-
-<button
-  class="btn-primary"
-  id="startScannerButton"
->
-📷 شروع اسکن
-</button>
-
-<div id="reader"></div>
-
-<div
-  class="scan-status"
-  id="scanStatus"
->
-آماده اسکن
-</div>
-
-</div>
-
-<!-- بایگانی -->
-
-<div class="card">
-
-<h2>📁 بایگانی پرونده‌ها</h2>
-
-<p style="color:#64748b">
-تمام پرونده‌هایی که در این مرورگر ذخیره شده‌اند در این قسمت نمایش داده می‌شوند.
-</p>
-
-<div class="archive-search">
-
-<input
-  type="text"
-  id="archiveSearch"
-  placeholder="جستجو با نام، نام خانوادگی، کد ملی یا شناسه پرونده..."
->
-
-<button
-  class="btn-primary"
-  id="clearSearchButton"
->
-پاک کردن جستجو
-</button>
-
-</div>
-
-<div id="archiveList"></div>
-
-</div>
-
-</div>
-
-<!-- کتابخانه‌ها -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
-
-
-<script>
-
-/* =========================
-   متغیرهای اصلی
-========================= */
-
-let problemCounter = 0;
-let currentPhoto = null;
-let currentRecord = null;
-let scanner = null;
-
-
-/* =========================
-   انتخاب عناصر صفحه
-========================= */
-
-const photoInput = document.getElementById("photo");
-const photoPreview = document.getElementById("photoPreview");
-
-const problemsContainer =
-  document.getElementById("problemsContainer");
-
-const addProblemButton =
-  document.getElementById("addProblemButton");
-
-const createRecordButton =
-  document.getElementById("createRecordButton");
-
-const resetButton =
-  document.getElementById("resetButton");
-
-const resultSection =
-  document.getElementById("resultSection");
-
-const recordSection =
-  document.getElementById("recordSection");
-
-const recordDetails =
-  document.getElementById("recordDetails");
-
-const generatedId =
-  document.getElementById("generatedId");
-
-const qrcodeContainer =
-  document.getElementById("qrcode");
-
-const downloadQRButton =
-  document.getElementById("downloadQRButton");
+</html>
